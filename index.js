@@ -22,7 +22,7 @@ app.get('/quotation-day', (request, response) => {
 })
 
 //localhost:8080/quotation-period/?iniDay=01&iniMonth=10&iniYear=2018&finDay=03&finMonth=10&finYear=2018
-app.get('/quontation-period', (request, response) => {
+app.get('/quotation-period', (request, response) => {
     console.log('Quotation period')
     var q = url.parse(request.url, true).query;
     var iniDate = q.iniDay + "-" + q.iniMonth + "-" + q.iniYear;
