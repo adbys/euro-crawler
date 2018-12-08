@@ -16,9 +16,8 @@ getOptionsObject = function (date) {
   }
 }
 
-requestQuotation = function (options, callback) {
-  requestPromise(options)
-  .then(($) => {
+resolvePromise = function (promise, callback) {
+  promise.then(($) => {
     var quotation = {}
     var date = ""
     var real = ""
@@ -57,8 +56,10 @@ requestQuotation = function (options, callback) {
 
 }
 
-promisesQuotation = function (options) {
-  requestPromise(options)
+requestQuotation = function (options, callback) {
+  var promise = requestPromise(options)
+  resolvePromise(promise, callback)
+  
 }
 
 exports.getPeriodQuotations = function (iniDate, finDate, callback) {
