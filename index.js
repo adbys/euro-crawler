@@ -6,7 +6,7 @@ const crawler = require('./crawler.js');
 var url = require('url');
 
 //http://localhost:8080/quontation-day/?day=01&month=10&year=2018
-app.get('/quontation-day', (request, response) => {
+app.get('/quotation-day', (request, response) => {
     console.log('Quotation day')
     var q = url.parse(request.url, true).query;
     var date = q.day + "-" + q.month + "-" + q.year;
@@ -18,7 +18,7 @@ app.get('/quontation-day', (request, response) => {
     
 })
 
-//localhost:8080/quontation-period/?iniDay=01&iniMonth=10&iniYear=2018&finDay=03&finMonth=10&finYear=2018
+//localhost:8080/quotation-period/?iniDay=01&iniMonth=10&iniYear=2018&finDay=03&finMonth=10&finYear=2018
 app.get('/quontation-period', (request, response) => {
     console.log('Quotation period')
     var q = url.parse(request.url, true).query;
