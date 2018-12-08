@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const port = 8080
 const crawler = require('./crawler.js');
+var cors = require('cors');
+
+app.use(cors());
 
 var url = require('url');
 
