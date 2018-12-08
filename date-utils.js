@@ -18,7 +18,7 @@ exports.formatDate = function (date) {
         month = '0' + month
     } 
   
-    return day + "/" + month + "/" + year
+    return day + "-" + month + "-" + year
 }
 
 getDateFromString = function (date) {
@@ -28,7 +28,7 @@ getDateFromString = function (date) {
 }
 
 exports.getDaysBetween = function (iniDate, finDate) {
-    var dateArray = new Array()
+    var dateArray = []
     begin = getDateFromString(iniDate)
     end = getDateFromString(finDate)
     while (begin <= end) {

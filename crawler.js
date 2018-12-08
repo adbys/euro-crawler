@@ -16,9 +16,7 @@ getOptionsObject = function (date) {
   }
 }
 
-
 requestQuotation = function (options, callback) {
-  console.log("requestQuotatio")
   requestPromise(options)
   .then(($) => {
     var quotation = {}
@@ -40,10 +38,7 @@ requestQuotation = function (options, callback) {
           if (divText !== "") {
             if (divText.includes("R$")) {
               real = divText
-            } //else if (divText.includes("EUR")) {
-              //var quotationEuro = { "euro": divText }
-              //console.log(quotationEuro)
-            //}
+            } 
           }
         })
       })
@@ -53,22 +48,68 @@ requestQuotation = function (options, callback) {
       "date": date,
       "real": real    
     }
-
-    
-    console.log("crawler request: " + quotation)
     
     callback(null, quotation)
   })
   .catch((err) => {
-    callback(err);
+    console.log(err);
   })
 
 }
 
+promisesQuotation = function (options) {
+  requestPromise(options)
+}
+
+exports.getPeriodQuotations = function (iniDate, finDate, callback) {
+  var dates = dateUtils.getDaysBetween(iniDate, finDate)
+  var quotations = []
+  var promises = []
+  for (i = 0; i < dates.length; i++) {
+    var options = getOptionsObject(dates[i])
+    promises.push(requestPromise(options))
+  }
+  Promise.all(promises).then((promise) => {
+    for (i = 0; i < promise.length; i++) {
+      $ = promise[i]
+      var quotation = {}
+      var date = ""
+      var real = ""
+      $('.card__body').each((i, body) => {
+        $(body).find('.card__title').each((i, title) => {
+          var titleText = $(title).text()       
+          //Not today
+          if (titleText.length > 18) {
+            date = titleText.substring(webSiteTitleText.length)
+          } else {
+            date = dateUtils.formatDate(new Date());
+          }
+        })
+        $(body).find('.currency__wrapper').each((i, item) => {
+          $(item).find('h2').each((i, div) => {
+            var divText = $(div).text()
+            if (divText !== "") {
+              if (divText.includes("R$")) {
+                real = divText
+              } 
+            }
+          })
+        })
+      })
+      
+      quotation = { 
+        "date": date,
+        "real": real    
+      }
+      
+      quotations.push(quotation)
+      }
+      callback(null, quotations)
+  })
+}
+
 
 exports.getQuotation =  function (date, callback) {
-  console.log("get quotation")
-  console.log(date)
   var options = getOptionsObject(date)
   requestQuotation(options, callback)
 }
