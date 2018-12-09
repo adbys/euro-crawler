@@ -25,8 +25,8 @@ app.get('/quotation-day', (request, response) => {
 app.get('/quotation-period', (request, response) => {
     console.log('Quotation period')
     var q = url.parse(request.url, true).query;
-    var iniDate = q.iniDay + "-" + q.iniMonth + "-" + q.iniYear;
-    var finDate = q.finDay + "-" + q.finMonth + "-" + q.finYear;
+    var iniDate = q.iniDay;
+    var finDate = q.finDay;
     console.log('Check quotation period since: ' + iniDate);
     console.log('Check quotation period until: ' + finDate);
     crawler.getPeriodQuotations(iniDate, finDate, function (err, data) {
